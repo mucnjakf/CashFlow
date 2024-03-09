@@ -1,4 +1,7 @@
 ﻿using Carter;
+using CashFlow.Application.Commands;
+using CashFlow.Application.Dtos;
+using MediatR;
 
 namespace CashFlow.Api.Endpoints;
 
@@ -9,12 +12,10 @@ public sealed class TestEndpoints : ICarterModule
         app.MapGet("api/test", HandlerAsync);
     }
 
-    private static async Task<IResult> HandlerAsync()
+    private static async Task<IResult> HandlerAsync(HttpContext context, ISender sender)
     {
-        await Task.Delay(1000);
+        TestDto result = await sender.Send(new CreateTestCommand("Test"));
 
-        throw new Exception();
-
-        return Results.Ok(new { Name = "Test" });
+        return Results.Ok(result);
     }
 }
