@@ -1,13 +1,17 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
+using CashFlow.Core.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace CashFlow.Api.Handlers;
 
 internal sealed class GlobalExceptionHandler : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext httpContext,
+        Exception exception,
+        CancellationToken cancellationToken)
     {
         ErrorResponseDto errorResponse = GetErrorResponse(exception);
 
@@ -21,8 +25,13 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
     private static ErrorResponseDto GetErrorResponse(Exception exception) => exception switch
     {
-        _ => new ErrorResponseDto("Unhandled error occured", (int)HttpStatusCode.InternalServerError)
+        ValidationException vex => new ErrorResponseDto((int)HttpStatusCode.BadRequest, vex.Message, vex.Errors),
+
+        _ => new ErrorResponseDto((int)HttpStatusCode.InternalServerError, "Unhandled error occured")
     };
 
-    private sealed record ErrorResponseDto(string Message, [property: JsonIgnore] int HttpStatusCode);
+    private sealed record ErrorResponseDto(
+        [property: JsonIgnore] int HttpStatusCode,
+        string Message,
+        IEnumerable<string>? ValidationErrors = null);
 }
