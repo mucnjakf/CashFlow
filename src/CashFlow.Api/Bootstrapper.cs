@@ -1,4 +1,5 @@
-﻿using CashFlow.Application;
+﻿using Carter;
+using CashFlow.Application;
 
 namespace CashFlow.Api;
 
@@ -7,7 +8,10 @@ public static class Bootstrapper
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
+        
         services.AddSwaggerGen();
+
+        services.AddCarter();
 
         services.AddApplication();
 
@@ -23,6 +27,8 @@ public static class Bootstrapper
         }
 
         app.UseHttpsRedirection();
+
+        app.MapCarter();
 
         return app;
     }
