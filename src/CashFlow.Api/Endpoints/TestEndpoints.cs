@@ -13,6 +13,8 @@ public sealed class TestEndpoints : ICarterModule
     {
         await Task.Delay(1000);
 
-        return Results.Ok("TEST");
+        throw new Exception();
+
+        return Results.Ok(new { Name = "Test" });
     }
 }
