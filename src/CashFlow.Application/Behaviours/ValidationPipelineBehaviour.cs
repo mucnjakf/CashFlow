@@ -22,7 +22,7 @@ public sealed class ValidationPipelineBehaviour<TRequest, TResponse>(IEnumerable
 
         if (errors.Count != 0)
         {
-            throw new ValidationException($"{typeof(TRequest).Name} is invalid.", errors);
+            throw new ValidationException($"{typeof(TRequest).Name} is invalid", errors);
         }
 
         return await next();
