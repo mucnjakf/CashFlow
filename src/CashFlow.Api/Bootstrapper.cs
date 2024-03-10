@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using Asp.Versioning;
 using Carter;
-using CashFlow.Api.Constants;
 using CashFlow.Api.Handlers;
 using CashFlow.Application;
 using CashFlow.Database;
@@ -18,13 +18,25 @@ public static class Bootstrapper
 
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc(ApiVersion.V1, new OpenApiInfo
+            options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Version = ApiVersion.V1,
+                Version = "v1",
                 Title = "CashFlow API"
             });
 
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+        });
+
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1);
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        }).AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'V";
+            options.SubstituteApiVersionInUrl = true;
         });
 
         services.AddGlobalExceptionHandler();
