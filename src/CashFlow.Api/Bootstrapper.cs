@@ -2,6 +2,8 @@
 using CashFlow.Api.Handlers;
 using CashFlow.Application;
 using CashFlow.Database;
+using CashFlow.Database.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Api;
 
@@ -32,6 +34,8 @@ public static class Bootstrapper
             app.UseSwaggerUI();
         }
 
+        app.ApplyDatabaseMigrations();
+
         app.UseExceptionHandler();
 
         app.UseHttpsRedirection();
@@ -47,5 +51,17 @@ public static class Bootstrapper
         services.AddProblemDetails();
 
         return services;
+    }
+
+    private static void ApplyDatabaseMigrations(this IApplicationBuilder app)
+    {
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+
+        using ApplicationDbContext dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        if (dbContext.Database.IsRelational())
+        {
+            dbContext.Database.Migrate();
+        }
     }
 }

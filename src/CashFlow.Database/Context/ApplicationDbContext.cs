@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Database.Context;
 
-internal sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
     public DbSet<Account> Accounts { get; private set; } = default!;
 
