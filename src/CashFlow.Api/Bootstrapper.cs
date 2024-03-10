@@ -1,12 +1,13 @@
 ﻿using Carter;
 using CashFlow.Api.Handlers;
 using CashFlow.Application;
+using CashFlow.Database;
 
 namespace CashFlow.Api;
 
 public static class Bootstrapper
 {
-    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddEndpointsApiExplorer();
 
@@ -16,7 +17,9 @@ public static class Bootstrapper
 
         services.AddCarter();
 
-        services.AddApplication();
+        services
+            .AddApplication()
+            .AddDatabase(configuration);
 
         return services;
     }

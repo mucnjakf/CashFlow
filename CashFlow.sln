@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashFlow.Core", "src\CashFl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashFlow.Application", "src\CashFlow.Application\CashFlow.Application.csproj", "{5CEAC51A-6F3E-40B8-907F-C4B0E7DE8432}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashFlow.Database", "src\CashFlow.Database\CashFlow.Database.csproj", "{F2F3DFEF-CF9C-42D0-8EF1-BD64D33F6098}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +30,15 @@ Global
 		{5CEAC51A-6F3E-40B8-907F-C4B0E7DE8432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CEAC51A-6F3E-40B8-907F-C4B0E7DE8432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CEAC51A-6F3E-40B8-907F-C4B0E7DE8432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F3DFEF-CF9C-42D0-8EF1-BD64D33F6098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F3DFEF-CF9C-42D0-8EF1-BD64D33F6098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F3DFEF-CF9C-42D0-8EF1-BD64D33F6098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F3DFEF-CF9C-42D0-8EF1-BD64D33F6098}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{88E8B8F1-7D02-4A03-B0E6-65070881A0E8} = {1695B984-D5C1-40D7-A3B3-755EF6DD705A}
 		{033576C4-5A6B-4895-BEE8-47977968F4AB} = {1695B984-D5C1-40D7-A3B3-755EF6DD705A}
 		{5CEAC51A-6F3E-40B8-907F-C4B0E7DE8432} = {1695B984-D5C1-40D7-A3B3-755EF6DD705A}
+		{F2F3DFEF-CF9C-42D0-8EF1-BD64D33F6098} = {1695B984-D5C1-40D7-A3B3-755EF6DD705A}
 	EndGlobalSection
 EndGlobal

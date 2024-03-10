@@ -11,11 +11,16 @@
     <ItemGroup>
         <PackageReference Include="Carter" Version="8.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CashFlow.Application\CashFlow.Application.csproj" />
+      <ProjectReference Include="..\CashFlow.Database\CashFlow.Database.csproj" />
     </ItemGroup>
 
 </Project>
