@@ -1,9 +1,12 @@
-﻿using Carter;
+﻿using System.Reflection;
+using Carter;
+using CashFlow.Api.Constants;
 using CashFlow.Api.Handlers;
 using CashFlow.Application;
 using CashFlow.Database;
 using CashFlow.Database.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace CashFlow.Api;
 
@@ -13,7 +16,16 @@ public static class Bootstrapper
     {
         services.AddEndpointsApiExplorer();
 
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc(ApiVersion.V1, new OpenApiInfo
+            {
+                Version = ApiVersion.V1,
+                Title = "CashFlow API"
+            });
+
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+        });
 
         services.AddGlobalExceptionHandler();
 
