@@ -8,4 +8,5 @@ public sealed record TransactionDto(
     string Description,
     double Amount,
     TransactionType Type,
+    TransactionAccountDto Account,
     TransactionCategoryDto Category);

@@ -12,4 +12,9 @@ public static class AccountMapper
             account.Balance,
             account.Transactions?.Select(x => x.ToAccountTransactionDto()));
     }
+
+    public static TransactionAccountDto ToTransactionAccountDto(this Account account)
+    {
+        return new TransactionAccountDto(account.Id, account.Balance);
+    }
 }

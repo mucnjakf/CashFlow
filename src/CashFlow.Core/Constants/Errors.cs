@@ -13,6 +13,7 @@ public static class Errors
     {
         public const string DescriptionRequired = "Description is required";
         public const string AmountGreaterThanZero = "Amount must be greater than 0";
+        public const string TransactionNotFound = "Transaction not found";
     }
 
     public static class Category

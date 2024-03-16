@@ -36,6 +36,7 @@ internal sealed class CreateTransactionCommandHandler(ApplicationDbContext dbCon
         await dbContext.SaveChangesAsync(cancellationToken);
 
         Transaction? newTransaction = await dbContext.Transactions
+            .Include(x => x.Account)
             .Include(x => x.Category)
             .SingleOrDefaultAsync(x => x.Id == transaction.Id, cancellationToken);
 

@@ -18,6 +18,7 @@ public sealed class TransactionEndpoints : ICarterModule
         RouteGroupBuilder group = app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet);
 
         group.MapGet("transactions", HandleGetTransactionsAsync);
+        group.MapGet("transactions/{transactionId:guid}", HandleGetTransactionAsync);
         group.MapPost("transactions", HandleCreateTransactionAsync);
     }
 
@@ -27,13 +28,18 @@ public sealed class TransactionEndpoints : ICarterModule
 
         return Results.Ok(transactions);
     }
-    
+
+    private static async Task<IResult> HandleGetTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid transactionId)
+    {
+        TransactionDto transaction = await sender.Send(new GetTransactionQuery(transactionId));
+
+        return Results.Ok(transaction);
+    }
+
     private static async Task<IResult> HandleCreateTransactionAsync(HttpContext context, ISender sender, [FromBody] CreateTransactionCommand command)
     {
         TransactionDto transaction = await sender.Send(command);
 
-        return Results.Ok(transaction);
-
-        // TODO: implement created at
+        return Results.Created($"transactions/{transaction.Id}", transaction);
     }
 }
