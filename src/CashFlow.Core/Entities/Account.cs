@@ -1,5 +1,7 @@
-﻿using CashFlow.Core.Constants;
+﻿using System.Diagnostics;
+using CashFlow.Core.Constants;
 using CashFlow.Core.Entities.Abstract;
+using CashFlow.Core.Enums;
 using CashFlow.Core.Exceptions;
 
 namespace CashFlow.Core.Entities;
@@ -19,7 +21,7 @@ public sealed class Account : Entity
     {
         if (balance < 0)
         {
-            throw new AccountException(Errors.Account.BalancePositiveNumber);
+            throw new AccountException(Errors.Account.BalanceGreaterThanZero);
         }
 
         Guid id = Guid.NewGuid();
@@ -31,9 +33,34 @@ public sealed class Account : Entity
     {
         if (balance < 0)
         {
-            throw new AccountException(Errors.Account.BalancePositiveNumber);
+            throw new AccountException(Errors.Account.BalanceGreaterThanZero);
         }
 
         Balance = balance;
+    }
+
+    public void UpdateBalance(TransactionType type, double amount)
+    {
+        if (Balance < amount)
+        {
+            throw new AccountException(Errors.Account.InsufficientBalance);
+        }
+        
+        if (amount < 0)
+        {
+            throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
+        }
+
+        switch (type)
+        {
+            case TransactionType.Income:
+                Balance += amount;
+                break;
+            case TransactionType.Expense:
+                Balance -= amount;
+                break;
+            default:
+                throw new UnreachableException();
+        }
     }
 }

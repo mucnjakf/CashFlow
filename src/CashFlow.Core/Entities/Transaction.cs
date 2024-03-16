@@ -39,14 +39,20 @@ public sealed class Transaction : Entity
         CategoryId = categoryId;
     }
 
-    public static Transaction Create(DateTime dateTimeUtc, string description, double amount, TransactionType type, Guid accountId, Guid categoryId)
+    public static Transaction Create(
+        DateTime dateTimeUtc,
+        string description,
+        double amount,
+        TransactionType type,
+        Guid accountId,
+        Guid categoryId)
     {
         if (string.IsNullOrWhiteSpace(description))
         {
             throw new TransactionException(Errors.Transaction.DescriptionRequired);
         }
 
-        if (amount <= 0)
+        if (amount < 0)
         {
             throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
         }

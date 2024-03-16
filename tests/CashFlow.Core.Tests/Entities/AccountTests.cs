@@ -35,6 +35,6 @@ public sealed class AccountTests
         Func<Account> result = () => Account.Create(balance);
 
         // Assert
-        result.Should().ThrowExactly<AccountException>().WithMessage(Errors.Account.BalancePositiveNumber);
+        result.Should().ThrowExactly<AccountException>().WithMessage(Errors.Account.BalanceGreaterThanZero);
     }
 }
