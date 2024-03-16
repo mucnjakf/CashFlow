@@ -26,4 +26,14 @@ public sealed class Account : Entity
 
         return new Account(id, balance);
     }
+
+    public void Update(double balance = 0)
+    {
+        if (balance < 0)
+        {
+            throw new AccountException(Errors.Account.BalancePositiveNumber);
+        }
+
+        Balance = balance;
+    }
 }

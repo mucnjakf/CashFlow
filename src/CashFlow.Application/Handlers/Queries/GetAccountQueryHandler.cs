@@ -12,7 +12,10 @@ internal sealed class GetAccountQueryHandler(ApplicationDbContext dbContext) : I
 {
     public async Task<AccountDto> Handle(GetAccountQuery request, CancellationToken cancellationToken)
     {
-        Account? account = await dbContext.Accounts.SingleOrDefaultAsync(cancellationToken);
+        Account? account = await dbContext.Accounts
+            .Include(x => x.Transactions)!
+            .ThenInclude(x => x.Category)
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (account is not null)
         {

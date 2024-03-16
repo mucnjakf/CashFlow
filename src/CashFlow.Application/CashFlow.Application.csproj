@@ -17,10 +17,4 @@
       <ProjectReference Include="..\CashFlow.Database\CashFlow.Database.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commands\" />
-      <Folder Include="Handlers\Commands\" />
-      <Folder Include="Validators\" />
-    </ItemGroup>
-
 </Project>
