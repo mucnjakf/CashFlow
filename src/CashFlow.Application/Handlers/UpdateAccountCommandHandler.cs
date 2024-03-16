@@ -6,7 +6,7 @@ using CashFlow.Database.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CashFlow.Application.Handlers.Commands;
+namespace CashFlow.Application.Handlers;
 
 internal sealed class UpdateAccountCommandHandler(ApplicationDbContext dbContext) : IRequestHandler<UpdateAccountCommand>
 {

@@ -6,11 +6,11 @@ using CashFlow.Database.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CashFlow.Application.Handlers.Queries;
+namespace CashFlow.Application.Handlers;
 
 internal sealed class GetAccountQueryHandler(ApplicationDbContext dbContext) : IRequestHandler<GetAccountQuery, AccountDto>
 {
-    public async Task<AccountDto> Handle(GetAccountQuery request, CancellationToken cancellationToken)
+    public async Task<AccountDto> Handle(GetAccountQuery query, CancellationToken cancellationToken)
     {
         Account? account = await dbContext.Accounts
             .Include(x => x.Transactions)!
