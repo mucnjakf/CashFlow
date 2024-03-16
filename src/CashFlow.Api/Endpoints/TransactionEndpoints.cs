@@ -18,34 +18,35 @@ public sealed class TransactionEndpoints : ICarterModule
 
         RouteGroupBuilder group = app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet);
 
-        group.MapGet("transactions", HandleGetTransactionsAsync);
-        group.MapGet("transactions/{id:guid}", HandleGetTransactionAsync);
-        group.MapPost("transactions", HandleCreateTransactionAsync);
-        group.MapPut("transactions/{id:guid}", HandleUpdateTransactionAsync);
+        group.MapGet("transactions", GetTransactionsAsync);
+        group.MapGet("transactions/{id:guid}", GetTransactionAsync);
+        group.MapPost("transactions", CreateTransactionAsync);
+        group.MapPut("transactions/{id:guid}", UpdateTransactionAsync);
+        group.MapDelete("transactions/{id:guid}", DeleteTransactionAsync);
     }
 
-    private static async Task<IResult> HandleGetTransactionsAsync(HttpContext context, ISender sender)
+    private static async Task<IResult> GetTransactionsAsync(HttpContext context, ISender sender)
     {
         IEnumerable<TransactionDto> transactions = await sender.Send(new GetTransactionsQuery());
 
         return Results.Ok(transactions);
     }
 
-    private static async Task<IResult> HandleGetTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
+    private static async Task<IResult> GetTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
     {
         TransactionDto transaction = await sender.Send(new GetTransactionQuery(id));
 
         return Results.Ok(transaction);
     }
 
-    private static async Task<IResult> HandleCreateTransactionAsync(HttpContext context, ISender sender, [FromBody] CreateTransactionCommand command)
+    private static async Task<IResult> CreateTransactionAsync(HttpContext context, ISender sender, [FromBody] CreateTransactionCommand command)
     {
         TransactionDto transaction = await sender.Send(command);
 
         return Results.Created($"transactions/{transaction.Id}", transaction);
     }
 
-    private static async Task<IResult> HandleUpdateTransactionAsync(
+    private static async Task<IResult> UpdateTransactionAsync(
         HttpContext context,
         ISender sender,
         [FromRoute] Guid id,
@@ -54,6 +55,13 @@ public sealed class TransactionEndpoints : ICarterModule
         UpdateTransactionCommand command = new(id, request.DateTimeUtc, request.Description, request.CategoryId);
 
         await sender.Send(command);
+
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> DeleteTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
+    {
+        await sender.Send(new DeleteTransactionCommand(id));
 
         return Results.NoContent();
     }

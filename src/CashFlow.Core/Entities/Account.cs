@@ -21,7 +21,7 @@ public sealed class Account : Entity
     {
         if (balance < 0)
         {
-            throw new AccountException(Errors.Account.BalanceGreaterThanZero);
+            throw new AccountException(Errors.Account.BalancePositiveNumber);
         }
 
         Guid id = Guid.NewGuid();
@@ -33,7 +33,7 @@ public sealed class Account : Entity
     {
         if (balance < 0)
         {
-            throw new AccountException(Errors.Account.BalanceGreaterThanZero);
+            throw new AccountException(Errors.Account.BalancePositiveNumber);
         }
 
         Balance = balance;
@@ -47,7 +47,7 @@ public sealed class Account : Entity
             throw new AccountException(Errors.Account.InsufficientBalance);
         }
 
-        if (amount < 0)
+        if (amount <= 0)
         {
             throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
         }
@@ -59,6 +59,33 @@ public sealed class Account : Entity
                 break;
             case TransactionType.Expense:
                 Balance -= amount;
+                break;
+            default:
+                throw new UnreachableException();
+        }
+
+        UpdatedUtc = DateTime.UtcNow;
+    }
+
+    public void RevertBalance(TransactionType type, double amount)
+    {
+        if (Balance < amount)
+        {
+            throw new AccountException(Errors.Account.InsufficientBalance);
+        }
+
+        if (amount <= 0)
+        {
+            throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
+        }
+
+        switch (type)
+        {
+            case TransactionType.Income:
+                Balance -= amount;
+                break;
+            case TransactionType.Expense:
+                Balance += amount;
                 break;
             default:
                 throw new UnreachableException();

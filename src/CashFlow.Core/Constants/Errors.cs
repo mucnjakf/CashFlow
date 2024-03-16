@@ -4,7 +4,7 @@ public static class Errors
 {
     public static class Account
     {
-        public const string BalanceGreaterThanZero = "Balance must be greated than 0";
+        public const string BalancePositiveNumber = "Balance must be a positive number";
         public const string AccountNotFound = "Account not found";
         public const string InsufficientBalance = "Insufficient balance";
     }

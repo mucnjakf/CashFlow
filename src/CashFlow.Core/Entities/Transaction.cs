@@ -52,7 +52,7 @@ public sealed class Transaction : Entity
             throw new TransactionException(Errors.Transaction.DescriptionRequired);
         }
 
-        if (amount < 0)
+        if (amount <= 0)
         {
             throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
         }

@@ -17,18 +17,18 @@ public sealed class AccountEndpoints : ICarterModule
 
         RouteGroupBuilder group = app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet);
 
-        group.MapGet("account", HandleGetAccountAsync);
-        group.MapPut("account", HandleUpdateAccountAsync);
+        group.MapGet("account", GetAccountAsync);
+        group.MapPut("account", UpdateAccountAsync);
     }
 
-    private static async Task<IResult> HandleGetAccountAsync(HttpContext context, ISender sender)
+    private static async Task<IResult> GetAccountAsync(HttpContext context, ISender sender)
     {
         AccountDto account = await sender.Send(new GetAccountQuery());
 
         return Results.Ok(account);
     }
 
-    private static async Task<IResult> HandleUpdateAccountAsync(HttpContext context, ISender sender, [FromBody] UpdateAccountCommand command)
+    private static async Task<IResult> UpdateAccountAsync(HttpContext context, ISender sender, [FromBody] UpdateAccountCommand command)
     {
         await sender.Send(command);
 
