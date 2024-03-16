@@ -61,4 +61,17 @@ public sealed class Transaction : Entity
 
         return new Transaction(id, dateTimeUtc, description, amount, type, accountId, categoryId);
     }
+
+    public void Update(DateTime dateTimeUtc, string description, Guid categoryId)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            throw new TransactionException(Errors.Transaction.DescriptionRequired);
+        }
+
+        DateTimeUtc = dateTimeUtc;
+        Description = description;
+        CategoryId = categoryId;
+        UpdatedUtc = DateTime.UtcNow;
+    }
 }

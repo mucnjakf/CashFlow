@@ -37,6 +37,7 @@ public sealed class Account : Entity
         }
 
         Balance = balance;
+        UpdatedUtc = DateTime.UtcNow;
     }
 
     public void UpdateBalance(TransactionType type, double amount)
@@ -45,7 +46,7 @@ public sealed class Account : Entity
         {
             throw new AccountException(Errors.Account.InsufficientBalance);
         }
-        
+
         if (amount < 0)
         {
             throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
@@ -62,5 +63,7 @@ public sealed class Account : Entity
             default:
                 throw new UnreachableException();
         }
+
+        UpdatedUtc = DateTime.UtcNow;
     }
 }

@@ -17,7 +17,7 @@ internal sealed class GetTransactionQueryHandler(ApplicationDbContext dbContext)
         Transaction? transaction = await dbContext.Transactions
             .Include(x => x.Account)
             .Include(x => x.Category)
-            .FirstOrDefaultAsync(x => x.Id == query.TransactionId, cancellationToken);
+            .SingleOrDefaultAsync(x => x.Id == query.TransactionId, cancellationToken);
 
         if (transaction is null)
         {

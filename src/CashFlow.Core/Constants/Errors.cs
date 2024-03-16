@@ -19,5 +19,6 @@ public static class Errors
     public static class Category
     {
         public const string NameRequired = "Name is required";
+        public const string CategoryNotFound = "Category not found";
     }
 }

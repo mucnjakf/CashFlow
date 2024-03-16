@@ -4,6 +4,7 @@ using Carter;
 using CashFlow.Application.Commands;
 using CashFlow.Application.Dtos;
 using CashFlow.Application.Queries;
+using CashFlow.Application.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +19,9 @@ public sealed class TransactionEndpoints : ICarterModule
         RouteGroupBuilder group = app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet);
 
         group.MapGet("transactions", HandleGetTransactionsAsync);
-        group.MapGet("transactions/{transactionId:guid}", HandleGetTransactionAsync);
+        group.MapGet("transactions/{id:guid}", HandleGetTransactionAsync);
         group.MapPost("transactions", HandleCreateTransactionAsync);
+        group.MapPut("transactions/{id:guid}", HandleUpdateTransactionAsync);
     }
 
     private static async Task<IResult> HandleGetTransactionsAsync(HttpContext context, ISender sender)
@@ -29,9 +31,9 @@ public sealed class TransactionEndpoints : ICarterModule
         return Results.Ok(transactions);
     }
 
-    private static async Task<IResult> HandleGetTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid transactionId)
+    private static async Task<IResult> HandleGetTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
     {
-        TransactionDto transaction = await sender.Send(new GetTransactionQuery(transactionId));
+        TransactionDto transaction = await sender.Send(new GetTransactionQuery(id));
 
         return Results.Ok(transaction);
     }
@@ -41,5 +43,18 @@ public sealed class TransactionEndpoints : ICarterModule
         TransactionDto transaction = await sender.Send(command);
 
         return Results.Created($"transactions/{transaction.Id}", transaction);
+    }
+
+    private static async Task<IResult> HandleUpdateTransactionAsync(
+        HttpContext context,
+        ISender sender,
+        [FromRoute] Guid id,
+        [FromBody] UpdateTransactionRequest request)
+    {
+        UpdateTransactionCommand command = new(id, request.DateTimeUtc, request.Description, request.CategoryId);
+
+        await sender.Send(command);
+
+        return Results.NoContent();
     }
 }
