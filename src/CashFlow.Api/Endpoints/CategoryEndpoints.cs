@@ -5,6 +5,7 @@ using CashFlow.Application.Commands;
 using CashFlow.Application.Dtos;
 using CashFlow.Application.Pagination;
 using CashFlow.Application.Queries;
+using CashFlow.Application.Requests;
 using CashFlow.Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ public sealed class CategoryEndpoints : ICarterModule
         group.MapGet("categories", GetCategoriesAsync);
         group.MapGet("categories/{id:guid}", GetCategoryAsync);
         group.MapPost("categories", CreateCategoryAsync);
+        group.MapPut("categories/{id:guid}", UpdateCategoryAsync);
     }
 
     private static async Task<IResult> GetCategoriesAsync(
@@ -43,11 +45,24 @@ public sealed class CategoryEndpoints : ICarterModule
 
         return Results.Ok(category);
     }
-    
+
     private static async Task<IResult> CreateCategoryAsync(HttpContext context, ISender sender, [FromBody] CreateCategoryCommand command)
     {
         CategoryDto category = await sender.Send(command);
 
         return Results.Created($"categories/{category.Id}", category);
+    }
+
+    private static async Task<IResult> UpdateCategoryAsync(
+        HttpContext context,
+        ISender sender,
+        [FromRoute] Guid id,
+        [FromBody] UpdateCategoryRequest request)
+    {
+        UpdateCategoryCommand command = new(id, request.Name);
+
+        await sender.Send(command);
+
+        return Results.NoContent();
     }
 }
