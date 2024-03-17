@@ -49,17 +49,14 @@ internal sealed class GetTransactionsQueryHandler(ApplicationDbContext dbContext
             x.Category.Name.ToUpper().Contains(capitalSearchQuery));
     }
 
-    private static IQueryable<Transaction> Sort(TransactionSortBy? sortBy, IQueryable<Transaction> queryable)
+    private static IQueryable<Transaction> Sort(TransactionSortBy? sortBy, IQueryable<Transaction> queryable) => sortBy switch
     {
-        return sortBy switch
-        {
-            TransactionSortBy.DateTimeUtcAsc => queryable.OrderBy(x => x.DateTimeUtc),
-            TransactionSortBy.DateTimeUtcDesc => queryable.OrderByDescending(x => x.DateTimeUtc),
-            TransactionSortBy.DescriptionAsc => queryable.OrderBy(x => x.Description),
-            TransactionSortBy.DescriptionDesc => queryable.OrderByDescending(x => x.Description),
-            TransactionSortBy.AmountAsc => queryable.OrderBy(x => x.Amount),
-            TransactionSortBy.AmountDesc => queryable.OrderByDescending(x => x.Amount),
-            _ => queryable.OrderBy(x => x.DateTimeUtc)
-        };
-    }
+        TransactionSortBy.DateTimeUtcAsc => queryable.OrderBy(x => x.DateTimeUtc),
+        TransactionSortBy.DateTimeUtcDesc => queryable.OrderByDescending(x => x.DateTimeUtc),
+        TransactionSortBy.DescriptionAsc => queryable.OrderBy(x => x.Description),
+        TransactionSortBy.DescriptionDesc => queryable.OrderByDescending(x => x.Description),
+        TransactionSortBy.AmountAsc => queryable.OrderBy(x => x.Amount),
+        TransactionSortBy.AmountDesc => queryable.OrderByDescending(x => x.Amount),
+        _ => queryable.OrderBy(x => x.DateTimeUtc)
+    };
 }
