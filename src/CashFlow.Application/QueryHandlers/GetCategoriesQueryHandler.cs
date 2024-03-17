@@ -8,7 +8,7 @@ using CashFlow.Database.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CashFlow.Application.Handlers;
+namespace CashFlow.Application.QueryHandlers;
 
 internal sealed class GetCategoriesQueryHandler(ApplicationDbContext dbContext) : IRequestHandler<GetCategoriesQuery, PagedList<CategoryDto>>
 {

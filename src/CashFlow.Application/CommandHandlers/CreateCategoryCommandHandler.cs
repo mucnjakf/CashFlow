@@ -5,7 +5,7 @@ using CashFlow.Core.Entities;
 using CashFlow.Database.Context;
 using MediatR;
 
-namespace CashFlow.Application.Handlers;
+namespace CashFlow.Application.CommandHandlers;
 
 internal sealed class CreateCategoryCommandHandler(ApplicationDbContext dbContext) : IRequestHandler<CreateCategoryCommand, CategoryDto>
 {
