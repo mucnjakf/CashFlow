@@ -24,6 +24,7 @@ public sealed class CategoryEndpoints : ICarterModule
         group.MapGet("categories/{id:guid}", GetCategoryAsync);
         group.MapPost("categories", CreateCategoryAsync);
         group.MapPut("categories/{id:guid}", UpdateCategoryAsync);
+        group.MapDelete("categories/{id:guid}", DeleteCategoryAsync);
     }
 
     private static async Task<IResult> GetCategoriesAsync(
@@ -62,6 +63,13 @@ public sealed class CategoryEndpoints : ICarterModule
         UpdateCategoryCommand command = new(id, request.Name);
 
         await sender.Send(command);
+
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> DeleteCategoryAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
+    {
+        await sender.Send(new DeleteCategoryCommand(id));
 
         return Results.NoContent();
     }
