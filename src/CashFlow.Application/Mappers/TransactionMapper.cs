@@ -27,4 +27,15 @@ public static class TransactionMapper
             transaction.Type,
             transaction.Category.ToTransactionCategoryDto());
     }
+
+    public static CategoryTransactionDto ToCategoryTransactionDto(this Transaction transaction)
+    {
+        return new CategoryTransactionDto(
+            transaction.Id,
+            transaction.DateTimeUtc,
+            transaction.Description,
+            transaction.Amount,
+            transaction.Type,
+            transaction.Account.ToTransactionAccountDto());
+    }
 }
