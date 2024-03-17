@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text.Json.Serialization;
 using Asp.Versioning;
 using Carter;
 using CashFlow.Api.Handlers;
@@ -14,6 +15,10 @@ public static class Bootstrapper
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services
+            .AddControllers()
+            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
         services.AddEndpointsApiExplorer();
 
         services.AddSwaggerGen(options =>

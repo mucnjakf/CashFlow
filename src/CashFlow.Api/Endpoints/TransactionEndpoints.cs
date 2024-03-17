@@ -3,8 +3,10 @@ using Asp.Versioning.Builder;
 using Carter;
 using CashFlow.Application.Commands;
 using CashFlow.Application.Dtos;
+using CashFlow.Application.Pagination;
 using CashFlow.Application.Queries;
 using CashFlow.Application.Requests;
+using CashFlow.Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +27,16 @@ public sealed class TransactionEndpoints : ICarterModule
         group.MapDelete("transactions/{id:guid}", DeleteTransactionAsync);
     }
 
-    private static async Task<IResult> GetTransactionsAsync(HttpContext context, ISender sender)
+    private static async Task<IResult> GetTransactionsAsync(
+        HttpContext context,
+        ISender sender,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] TransactionType? type = null,
+        [FromQuery] TransactionSortBy? sortBy = null,
+        [FromQuery] string? searchQuery = null)
     {
-        IEnumerable<TransactionDto> transactions = await sender.Send(new GetTransactionsQuery());
+        PagedList<TransactionDto> transactions = await sender.Send(new GetTransactionsQuery(pageNumber, pageSize, type, sortBy, searchQuery));
 
         return Results.Ok(transactions);
     }
