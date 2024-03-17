@@ -20,6 +20,7 @@ public sealed class CategoryEndpoints : ICarterModule
         RouteGroupBuilder group = app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet);
 
         group.MapGet("categories", GetCategoriesAsync);
+        group.MapGet("categories/{id:guid}", GetCategoryAsync);
         group.MapPost("categories", CreateCategoryAsync);
     }
 
@@ -36,6 +37,13 @@ public sealed class CategoryEndpoints : ICarterModule
         return Results.Ok(categories);
     }
 
+    private static async Task<IResult> GetCategoryAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
+    {
+        CategoryDto category = await sender.Send(new GetCategoryQuery(id));
+
+        return Results.Ok(category);
+    }
+    
     private static async Task<IResult> CreateCategoryAsync(HttpContext context, ISender sender, [FromBody] CreateCategoryCommand command)
     {
         CategoryDto category = await sender.Send(command);
