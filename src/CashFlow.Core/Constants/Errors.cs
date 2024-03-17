@@ -20,5 +20,6 @@ public static class Errors
     {
         public const string NameRequired = "Name is required";
         public const string CategoryNotFound = "Category not found";
+        public const string CategoryContainsTransactions = "Category contains transactions";
     }
 }

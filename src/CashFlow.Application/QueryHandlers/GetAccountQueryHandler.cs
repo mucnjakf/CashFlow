@@ -6,7 +6,7 @@ using CashFlow.Database.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CashFlow.Application.Handlers;
+namespace CashFlow.Application.QueryHandlers;
 
 internal sealed class GetAccountQueryHandler(ApplicationDbContext dbContext) : IRequestHandler<GetAccountQuery, AccountDto>
 {
