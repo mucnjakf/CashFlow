@@ -21,13 +21,20 @@ internal sealed class CreateTransactionCommandHandler(ApplicationDbContext dbCon
             throw new AccountException(Errors.Account.AccountNotFound);
         }
 
+        Category? category = await dbContext.Categories.SingleOrDefaultAsync(x => x.Id == command.CategoryId, cancellationToken);
+
+        if (category is null)
+        {
+            throw new CategoryException(Errors.Category.CategoryNotFound);
+        }
+
         Transaction transaction = Transaction.Create(
             command.DateTimeUtc,
             command.Description,
             command.Amount,
             command.Type,
             account.Id,
-            command.CategoryId);
+            category.Id);
 
         await dbContext.Transactions.AddAsync(transaction, cancellationToken);
 

@@ -15,34 +15,9 @@ public static class Bootstrapper
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services
-            .AddControllers()
-            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-
         services.AddEndpointsApiExplorer();
 
-        services.AddSwaggerGen(options =>
-        {
-            options.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Version = "v1",
-                Title = "CashFlow API"
-            });
-
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
-        });
-
-        services.AddApiVersioning(options =>
-        {
-            options.DefaultApiVersion = new ApiVersion(1);
-            options.ReportApiVersions = true;
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ApiVersionReader = new UrlSegmentApiVersionReader();
-        }).AddApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'V";
-            options.SubstituteApiVersionInUrl = true;
-        });
+        services.AddSwagger();
 
         services.AddGlobalExceptionHandler();
 
@@ -72,6 +47,34 @@ public static class Bootstrapper
         app.MapCarter();
 
         return app;
+    }
+
+    private static IServiceCollection AddSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "CashFlow API"
+            });
+
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+        });
+
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1);
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        }).AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'V";
+            options.SubstituteApiVersionInUrl = true;
+        });
+
+        return services;
     }
 
     private static IServiceCollection AddGlobalExceptionHandler(this IServiceCollection services)
