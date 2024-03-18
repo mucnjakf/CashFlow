@@ -77,4 +77,40 @@ public sealed class TransactionTests
         // Assert
         result.Should().ThrowExactly<TransactionException>().WithMessage(Errors.Transaction.AmountGreaterThanZero);
     }
+
+    [Fact]
+    public void Update_Should_UpdateProperties_When_ArgumentsAreValid()
+    {
+        // Arrange
+        Transaction transaction = TransactionData.GetTransaction();
+        DateTime dateTimeUtc = DateTime.UtcNow.AddDays(1);
+        const string description = "Ice cream";
+        Guid categoryId = CategoryData.GetCategory().Id;
+
+        // Act
+        transaction.Update(dateTimeUtc, description, categoryId);
+
+        // Assert
+        transaction.UpdatedUtc.Should().NotBeBefore(DateTime.UtcNow.AddSeconds(-5));
+        transaction.DateTimeUtc.Should().Be(dateTimeUtc);
+        transaction.Description.Should().NotBeNullOrWhiteSpace();
+        transaction.Description.Should().Be(description);
+        transaction.CategoryId.Should().NotBeEmpty();
+        transaction.CategoryId.Should().Be(categoryId);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void Update_Should_ThrowTransactionException_WhenArgumentsAreInvalid(string description)
+    {
+        // Arrange
+        Transaction transaction = TransactionData.GetTransaction();
+
+        // Act
+        Action result = () => transaction.Update(DateTime.UtcNow, description, CategoryData.GetCategory().Id);
+
+        // Assert
+        result.Should().ThrowExactly<TransactionException>().WithMessage(Errors.Transaction.DescriptionRequired);
+    }
 }

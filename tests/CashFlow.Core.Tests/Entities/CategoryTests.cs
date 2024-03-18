@@ -1,6 +1,7 @@
 ﻿using CashFlow.Core.Constants;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Exceptions;
+using CashFlow.Tests.Data.Entities;
 using FluentAssertions;
 
 namespace CashFlow.Core.Tests.Entities;
@@ -33,6 +34,38 @@ public sealed class CategoryTests
     {
         // Act
         Func<Category> result = () => Category.Create(name);
+
+        // Assert
+        result.Should().ThrowExactly<CategoryException>().WithMessage(Errors.Category.NameRequired);
+    }
+    
+    [Fact]
+    public void Update_Should_UpdateProperties_When_ArgumentsAreValid()
+    {
+        // Arrange
+        Category category = CategoryData.GetCategory();
+        const string name = "Motorcycle";
+
+        // Act
+        category.Update(name);
+        
+
+        // Assert
+        category.UpdatedUtc.Should().NotBeBefore(DateTime.UtcNow.AddSeconds(-5));
+        category.Name.Should().NotBeNullOrWhiteSpace();
+        category.Name.Should().Be(name);
+    }
+    
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void Update_Should_ThrowCategoryException_When_ArgumentsAreInvalid(string name)
+    {
+        // Arrange
+        Category category = CategoryData.GetCategory();
+        
+        // Act
+        Action result = () => category.Update(name);
 
         // Assert
         result.Should().ThrowExactly<CategoryException>().WithMessage(Errors.Category.NameRequired);
