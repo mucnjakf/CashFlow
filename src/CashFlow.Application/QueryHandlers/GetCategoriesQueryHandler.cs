@@ -1,16 +1,16 @@
-﻿using CashFlow.Application.Dtos;
+﻿using CashFlow.Application.Context;
+using CashFlow.Application.Dtos;
 using CashFlow.Application.Mappers;
 using CashFlow.Application.Pagination;
 using CashFlow.Application.Queries;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Enums;
-using CashFlow.Database.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.QueryHandlers;
 
-internal sealed class GetCategoriesQueryHandler(ApplicationDbContext dbContext) : IRequestHandler<GetCategoriesQuery, PagedList<CategoryDto>>
+internal sealed class GetCategoriesQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<GetCategoriesQuery, PagedList<CategoryDto>>
 {
     public async Task<PagedList<CategoryDto>> Handle(GetCategoriesQuery query, CancellationToken cancellationToken)
     {

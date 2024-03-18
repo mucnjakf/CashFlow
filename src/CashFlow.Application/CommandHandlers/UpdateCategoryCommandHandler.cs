@@ -1,15 +1,15 @@
 ﻿using System.Net;
 using CashFlow.Application.Commands;
+using CashFlow.Application.Context;
 using CashFlow.Core.Constants;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Exceptions;
-using CashFlow.Database.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.CommandHandlers;
 
-internal sealed class UpdateCategoryCommandHandler(ApplicationDbContext dbContext) : IRequestHandler<UpdateCategoryCommand>
+internal sealed class UpdateCategoryCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<UpdateCategoryCommand>
 {
     public async Task Handle(UpdateCategoryCommand command, CancellationToken cancellationToken)
     {

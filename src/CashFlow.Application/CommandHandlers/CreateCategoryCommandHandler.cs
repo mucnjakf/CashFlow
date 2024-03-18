@@ -1,13 +1,13 @@
 ﻿using CashFlow.Application.Commands;
+using CashFlow.Application.Context;
 using CashFlow.Application.Dtos;
 using CashFlow.Application.Mappers;
 using CashFlow.Core.Entities;
-using CashFlow.Database.Context;
 using MediatR;
 
 namespace CashFlow.Application.CommandHandlers;
 
-internal sealed class CreateCategoryCommandHandler(ApplicationDbContext dbContext) : IRequestHandler<CreateCategoryCommand, CategoryDto>
+internal sealed class CreateCategoryCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<CreateCategoryCommand, CategoryDto>
 {
     public async Task<CategoryDto> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
     {
