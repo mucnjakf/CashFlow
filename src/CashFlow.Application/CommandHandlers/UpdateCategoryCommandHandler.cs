@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Commands;
+﻿using System.Net;
+using CashFlow.Application.Commands;
 using CashFlow.Core.Constants;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Exceptions;
@@ -16,7 +17,7 @@ internal sealed class UpdateCategoryCommandHandler(ApplicationDbContext dbContex
 
         if (category is null)
         {
-            throw new CategoryException(Errors.Category.CategoryNotFound);
+            throw new CategoryException(HttpStatusCode.NotFound, Errors.Category.CategoryNotFound);
         }
 
         category.Update(command.Name);

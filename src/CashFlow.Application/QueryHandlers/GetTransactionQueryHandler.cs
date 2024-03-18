@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Dtos;
+﻿using System.Net;
+using CashFlow.Application.Dtos;
 using CashFlow.Application.Mappers;
 using CashFlow.Application.Queries;
 using CashFlow.Core.Constants;
@@ -21,7 +22,7 @@ internal sealed class GetTransactionQueryHandler(ApplicationDbContext dbContext)
 
         if (transaction is null)
         {
-            throw new TransactionException(Errors.Transaction.TransactionNotFound);
+            throw new TransactionException(HttpStatusCode.NotFound, Errors.Transaction.TransactionNotFound);
         }
 
         return transaction.ToTransactionDto();

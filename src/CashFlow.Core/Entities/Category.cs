@@ -1,4 +1,5 @@
-﻿using CashFlow.Core.Constants;
+﻿using System.Net;
+using CashFlow.Core.Constants;
 using CashFlow.Core.Entities.Abstract;
 using CashFlow.Core.Exceptions;
 
@@ -19,7 +20,7 @@ public sealed class Category : Entity
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new CategoryException(Errors.Category.NameRequired);
+            throw new CategoryException(HttpStatusCode.BadRequest, Errors.Category.NameRequired);
         }
 
         Guid id = Guid.NewGuid();
@@ -31,7 +32,7 @@ public sealed class Category : Entity
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new CategoryException(Errors.Category.NameRequired);
+            throw new CategoryException(HttpStatusCode.BadRequest, Errors.Category.NameRequired);
         }
 
         Name = name;

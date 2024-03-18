@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Commands;
+﻿using System.Net;
+using CashFlow.Application.Commands;
 using CashFlow.Core.Constants;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Exceptions;
@@ -17,7 +18,7 @@ internal sealed class UpdateTransactionCommandHandler(ApplicationDbContext dbCon
 
         if (transaction is null)
         {
-            throw new TransactionException(Errors.Transaction.TransactionNotFound);
+            throw new TransactionException(HttpStatusCode.NotFound, Errors.Transaction.TransactionNotFound);
         }
 
         Category? category = await dbContext.Categories
@@ -25,7 +26,7 @@ internal sealed class UpdateTransactionCommandHandler(ApplicationDbContext dbCon
 
         if (category is null)
         {
-            throw new CategoryException(Errors.Category.CategoryNotFound);
+            throw new CategoryException(HttpStatusCode.NotFound, Errors.Category.CategoryNotFound);
         }
 
         transaction.Update(command.DateTimeUtc, command.Description, category.Id);

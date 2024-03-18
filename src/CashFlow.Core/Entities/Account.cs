@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using CashFlow.Core.Constants;
 using CashFlow.Core.Entities.Abstract;
 using CashFlow.Core.Enums;
@@ -21,7 +22,7 @@ public sealed class Account : Entity
     {
         if (balance < 0)
         {
-            throw new AccountException(Errors.Account.BalancePositiveNumber);
+            throw new AccountException(HttpStatusCode.BadRequest, Errors.Account.BalancePositiveNumber);
         }
 
         Guid id = Guid.NewGuid();
@@ -33,7 +34,7 @@ public sealed class Account : Entity
     {
         if (balance < 0)
         {
-            throw new AccountException(Errors.Account.BalancePositiveNumber);
+            throw new AccountException(HttpStatusCode.BadRequest, Errors.Account.BalancePositiveNumber);
         }
 
         Balance = balance;
@@ -44,12 +45,12 @@ public sealed class Account : Entity
     {
         if (Balance < amount)
         {
-            throw new AccountException(Errors.Account.InsufficientBalance);
+            throw new AccountException(HttpStatusCode.BadRequest, Errors.Account.InsufficientBalance);
         }
 
         if (amount <= 0)
         {
-            throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
+            throw new TransactionException(HttpStatusCode.BadRequest, Errors.Transaction.AmountGreaterThanZero);
         }
 
         switch (type)
@@ -71,12 +72,12 @@ public sealed class Account : Entity
     {
         if (Balance < amount)
         {
-            throw new AccountException(Errors.Account.InsufficientBalance);
+            throw new AccountException(HttpStatusCode.BadRequest, Errors.Account.InsufficientBalance);
         }
 
         if (amount <= 0)
         {
-            throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
+            throw new TransactionException(HttpStatusCode.BadRequest, Errors.Transaction.AmountGreaterThanZero);
         }
 
         switch (type)

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
+using CashFlow.Core.Constants;
 using CashFlow.Core.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
@@ -16,7 +17,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         ErrorResponseDto errorResponse = GetErrorResponse(exception);
 
         httpContext.Response.ContentType = MediaTypeNames.Application.Json;
-        httpContext.Response.StatusCode = errorResponse.HttpStatusCode;
+        httpContext.Response.StatusCode = (int)errorResponse.HttpStatusCode;
 
         await httpContext.Response.WriteAsJsonAsync(errorResponse, cancellationToken);
 
@@ -25,13 +26,19 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
     private static ErrorResponseDto GetErrorResponse(Exception exception) => exception switch
     {
-        ValidationException vex => new ErrorResponseDto((int)HttpStatusCode.BadRequest, vex.Message, vex.Errors),
+        AccountException aex => new ErrorResponseDto(aex.HttpStatusCode, aex.Message),
 
-        _ => new ErrorResponseDto((int)HttpStatusCode.InternalServerError, "Unhandled error occured")
+        TransactionException tex => new ErrorResponseDto(tex.HttpStatusCode, tex.Message),
+
+        CategoryException cex => new ErrorResponseDto(cex.HttpStatusCode, cex.Message),
+
+        ValidationException vex => new ErrorResponseDto(vex.HttpStatusCode, vex.Message, vex.Errors),
+
+        _ => new ErrorResponseDto(HttpStatusCode.InternalServerError, Errors.General.UnhandledError)
     };
 
     private sealed record ErrorResponseDto(
-        [property: JsonIgnore] int HttpStatusCode,
+        [property: JsonIgnore] HttpStatusCode HttpStatusCode,
         string Message,
         IEnumerable<string>? ValidationErrors = null);
 }

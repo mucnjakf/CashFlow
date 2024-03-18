@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Dtos;
+﻿using System.Net;
+using CashFlow.Application.Dtos;
 using CashFlow.Application.Mappers;
 using CashFlow.Application.Queries;
 using CashFlow.Core.Constants;
@@ -21,7 +22,7 @@ internal sealed class GetCategoryQueryHandler(ApplicationDbContext dbContext) : 
 
         if (category is null)
         {
-            throw new CategoryException(Errors.Category.CategoryNotFound);
+            throw new CategoryException(HttpStatusCode.NotFound, Errors.Category.CategoryNotFound);
         }
 
         return category.ToCategoryDto();

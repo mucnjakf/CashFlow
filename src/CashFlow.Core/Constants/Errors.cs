@@ -2,6 +2,11 @@
 
 public static class Errors
 {
+    public static class General
+    {
+        public const string UnhandledError = "Unhandled error occured";
+    }
+    
     public static class Account
     {
         public const string BalancePositiveNumber = "Balance must be a positive number";
