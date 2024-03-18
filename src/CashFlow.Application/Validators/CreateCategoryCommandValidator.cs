@@ -1,4 +1,5 @@
 ﻿using CashFlow.Application.Commands;
+using CashFlow.Core.Constants;
 using FluentValidation;
 
 namespace CashFlow.Application.Validators;
@@ -7,6 +8,6 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
 {
     public CreateCategoryCommandValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessage("{PropertyName} is required");
+        RuleFor(x => x.Name).NotEmpty().WithMessage(Errors.Category.NameRequired);
     }
 }
