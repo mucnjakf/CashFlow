@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Commands;
+﻿using System.Net;
+using CashFlow.Application.Commands;
 using CashFlow.Core.Constants;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Exceptions;
@@ -16,7 +17,7 @@ internal sealed class UpdateAccountCommandHandler(ApplicationDbContext dbContext
 
         if (account is null)
         {
-            throw new AccountException(Errors.Account.AccountNotFound);
+            throw new AccountException(HttpStatusCode.NotFound, Errors.Account.AccountNotFound);
         }
 
         account.Update(command.Balance);

@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Commands;
+﻿using System.Net;
+using CashFlow.Application.Commands;
 using CashFlow.Core.Constants;
 using CashFlow.Core.Entities;
 using CashFlow.Core.Exceptions;
@@ -18,12 +19,12 @@ internal sealed class DeleteCategoryCommandHandler(ApplicationDbContext dbContex
 
         if (category is null)
         {
-            throw new CategoryException(Errors.Category.CategoryNotFound);
+            throw new CategoryException(HttpStatusCode.NotFound, Errors.Category.CategoryNotFound);
         }
 
         if (category.Transactions is not null && category.Transactions.Any())
         {
-            throw new CategoryException(Errors.Category.CategoryContainsTransactions);
+            throw new CategoryException(HttpStatusCode.BadRequest, Errors.Category.CategoryContainsTransactions);
         }
 
         dbContext.Categories.Remove(category);

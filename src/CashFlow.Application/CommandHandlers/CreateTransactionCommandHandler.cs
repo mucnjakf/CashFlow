@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.Commands;
+﻿using System.Net;
+using CashFlow.Application.Commands;
 using CashFlow.Application.Dtos;
 using CashFlow.Application.Mappers;
 using CashFlow.Core.Constants;
@@ -18,14 +19,14 @@ internal sealed class CreateTransactionCommandHandler(ApplicationDbContext dbCon
 
         if (account is null)
         {
-            throw new AccountException(Errors.Account.AccountNotFound);
+            throw new AccountException(HttpStatusCode.NotFound, Errors.Account.AccountNotFound);
         }
 
         Category? category = await dbContext.Categories.SingleOrDefaultAsync(x => x.Id == command.CategoryId, cancellationToken);
 
         if (category is null)
         {
-            throw new CategoryException(Errors.Category.CategoryNotFound);
+            throw new CategoryException(HttpStatusCode.NotFound, Errors.Category.CategoryNotFound);
         }
 
         Transaction transaction = Transaction.Create(

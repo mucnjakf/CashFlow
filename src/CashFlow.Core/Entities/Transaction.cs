@@ -1,4 +1,5 @@
-﻿using CashFlow.Core.Constants;
+﻿using System.Net;
+using CashFlow.Core.Constants;
 using CashFlow.Core.Entities.Abstract;
 using CashFlow.Core.Enums;
 using CashFlow.Core.Exceptions;
@@ -49,12 +50,12 @@ public sealed class Transaction : Entity
     {
         if (string.IsNullOrWhiteSpace(description))
         {
-            throw new TransactionException(Errors.Transaction.DescriptionRequired);
+            throw new TransactionException(HttpStatusCode.BadRequest, Errors.Transaction.DescriptionRequired);
         }
 
         if (amount <= 0)
         {
-            throw new TransactionException(Errors.Transaction.AmountGreaterThanZero);
+            throw new TransactionException(HttpStatusCode.BadRequest, Errors.Transaction.AmountGreaterThanZero);
         }
 
         Guid id = Guid.NewGuid();
@@ -66,7 +67,7 @@ public sealed class Transaction : Entity
     {
         if (string.IsNullOrWhiteSpace(description))
         {
-            throw new TransactionException(Errors.Transaction.DescriptionRequired);
+            throw new TransactionException(HttpStatusCode.BadRequest, Errors.Transaction.DescriptionRequired);
         }
 
         DateTimeUtc = dateTimeUtc;

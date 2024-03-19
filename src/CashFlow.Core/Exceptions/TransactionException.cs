@@ -1,3 +1,5 @@
-﻿namespace CashFlow.Core.Exceptions;
+﻿using System.Net;
 
-public sealed class TransactionException(string message) : Exception(message);
+namespace CashFlow.Core.Exceptions;
+
+public sealed class TransactionException(HttpStatusCode httpStatusCode, string message) : HttpException(httpStatusCode, message);
