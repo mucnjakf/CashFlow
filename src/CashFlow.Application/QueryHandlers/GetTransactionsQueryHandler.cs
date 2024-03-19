@@ -46,7 +46,7 @@ internal sealed class GetTransactionsQueryHandler(IApplicationDbContext dbContex
         return queryable.Where(x =>
             x.Description.ToUpper().Contains(capitalSearchQuery) ||
             x.Amount.ToString().ToUpper().Contains(capitalSearchQuery) ||
-            x.Category.Name.ToUpper().Contains(capitalSearchQuery));
+            x.Category!.Name.ToUpper().Contains(capitalSearchQuery));
     }
 
     private static IQueryable<Transaction> Sort(TransactionSortBy? sortBy, IQueryable<Transaction> queryable) => sortBy switch

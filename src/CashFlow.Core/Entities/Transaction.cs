@@ -18,11 +18,11 @@ public sealed class Transaction : Entity
 
     public Guid AccountId { get; private set; }
 
-    public Account Account { get; private set; } = default!;
+    public Account? Account { get; private set; }
 
     public Guid CategoryId { get; private set; }
 
-    public Category Category { get; private set; } = default!;
+    public Category? Category { get; private set; }
 
     private Transaction(Guid id,
         DateTime dateTimeUtc,

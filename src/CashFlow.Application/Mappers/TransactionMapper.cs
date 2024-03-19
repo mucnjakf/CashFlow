@@ -13,7 +13,7 @@ public static class TransactionMapper
             transaction.Description,
             transaction.Amount,
             transaction.Type,
-            transaction.Account.ToTransactionAccountDto(),
-            transaction.Category.ToTransactionCategoryDto());
+            transaction.Account?.ToTransactionAccountDto(),
+            transaction.Category?.ToTransactionCategoryDto());
     }
 }
