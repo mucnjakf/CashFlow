@@ -1,4 +1,5 @@
-﻿using CashFlow.Database.Context;
+﻿using CashFlow.Application.Context;
+using CashFlow.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,8 @@ public static class Bootstrapper
         string connectionString = configuration.GetConnectionString("Default")!;
 
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         return services;
     }
