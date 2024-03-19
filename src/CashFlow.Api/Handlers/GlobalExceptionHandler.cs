@@ -37,7 +37,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         _ => new ErrorResponseDto(HttpStatusCode.InternalServerError, Errors.General.UnhandledError)
     };
 
-    private sealed record ErrorResponseDto(
+    public sealed record ErrorResponseDto(
         [property: JsonIgnore] HttpStatusCode HttpStatusCode,
         string Message,
         IEnumerable<string>? ValidationErrors = null);
