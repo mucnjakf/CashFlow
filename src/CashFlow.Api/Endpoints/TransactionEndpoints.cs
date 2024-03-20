@@ -13,8 +13,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CashFlow.Api.Endpoints;
 
+/// <summary>
+/// Transaction endpoints
+/// </summary>
 public sealed class TransactionEndpoints : ICarterModule
 {
+    /// <summary>
+    /// Builds and registers routes
+    /// </summary>
+    /// <param name="app"><see cref="IEndpointRouteBuilder"/></param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         ApiVersionSet apiVersionSet = app
@@ -65,6 +72,17 @@ public sealed class TransactionEndpoints : ICarterModule
             .Produces(500, typeof(GlobalExceptionHandler.ErrorResponseDto));
     }
 
+    /// <summary>
+    /// Get transactions endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <param name="pageNumber">Pagination page number</param>
+    /// <param name="pageSize">Pagination page size</param>
+    /// <param name="type"><see cref="TransactionType"/></param>
+    /// <param name="sortBy"><see cref="TransactionSortBy"/></param>
+    /// <param name="searchQuery">Search query for filtering</param>
+    /// <returns><see cref="PagedList{T}"/> with 200 OK status code</returns>
     private static async Task<IResult> GetTransactionsAsync(
         HttpContext context,
         ISender sender,
@@ -79,6 +97,13 @@ public sealed class TransactionEndpoints : ICarterModule
         return Results.Ok(transactions);
     }
 
+    /// <summary>
+    /// Get transaction endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <param name="id">Transaction ID</param>
+    /// <returns><see cref="TransactionDto"/> with 200 OK status code</returns>
     private static async Task<IResult> GetTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
     {
         TransactionDto transaction = await sender.Send(new GetTransactionQuery(id));
@@ -86,6 +111,13 @@ public sealed class TransactionEndpoints : ICarterModule
         return Results.Ok(transaction);
     }
 
+    /// <summary>
+    /// Create transaction endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <param name="command"><see cref="CreateTransactionCommand"/></param>
+    /// <returns><see cref="TransactionDto"/> with 201 Created status code</returns>
     private static async Task<IResult> CreateTransactionAsync(HttpContext context, ISender sender, [FromBody] CreateTransactionCommand command)
     {
         TransactionDto transaction = await sender.Send(command);
@@ -93,6 +125,14 @@ public sealed class TransactionEndpoints : ICarterModule
         return Results.Created($"transactions/{transaction.Id}", transaction);
     }
 
+    /// <summary>
+    /// Update transaction endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <param name="id">Transaction ID</param>
+    /// <param name="request"><see cref="UpdateTransactionRequest"/></param>
+    /// <returns>204 No content status code</returns>
     private static async Task<IResult> UpdateTransactionAsync(
         HttpContext context,
         ISender sender,
@@ -106,6 +146,13 @@ public sealed class TransactionEndpoints : ICarterModule
         return Results.NoContent();
     }
 
+    /// <summary>
+    /// Delete transaction endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <param name="id">Transaction ID</param>
+    /// <returns>204 No content status code</returns>
     private static async Task<IResult> DeleteTransactionAsync(HttpContext context, ISender sender, [FromRoute] Guid id)
     {
         await sender.Send(new DeleteTransactionCommand(id));

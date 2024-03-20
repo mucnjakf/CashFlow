@@ -10,8 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CashFlow.Api.Endpoints;
 
+/// <summary>
+/// Account endpoints
+/// </summary>
 public sealed class AccountEndpoints : ICarterModule
 {
+    /// <summary>
+    /// Builds and registers routes
+    /// </summary>
+    /// <param name="app"><see cref="IEndpointRouteBuilder"/></param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         ApiVersionSet apiVersionSet = app
@@ -41,6 +48,12 @@ public sealed class AccountEndpoints : ICarterModule
             .Produces(500, typeof(GlobalExceptionHandler.ErrorResponseDto));
     }
 
+    /// <summary>
+    /// Get account endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <returns><see cref="AccountDto"/> with 200 OK status code</returns>
     private static async Task<IResult> GetAccountAsync(HttpContext context, ISender sender)
     {
         AccountDto account = await sender.Send(new GetAccountQuery());
@@ -48,6 +61,13 @@ public sealed class AccountEndpoints : ICarterModule
         return Results.Ok(account);
     }
 
+    /// <summary>
+    /// Update account endpoint handler
+    /// </summary>
+    /// <param name="context"><see cref="HttpContext"/></param>
+    /// <param name="sender"><see cref="ISender"/></param>
+    /// <param name="command"><see cref="UpdateAccountCommand"/></param>
+    /// <returns>204 No content status code</returns>
     private static async Task<IResult> UpdateAccountAsync(HttpContext context, ISender sender, [FromBody] UpdateAccountCommand command)
     {
         await sender.Send(command);
