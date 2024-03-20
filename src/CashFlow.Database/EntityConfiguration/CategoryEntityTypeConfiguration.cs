@@ -5,8 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CashFlow.Database.EntityConfiguration;
 
+/// <summary>
+/// Category entity type configuration
+/// </summary>
 internal sealed class CategoryEntityTypeConfiguration : IEntityTypeConfiguration<Category>
 {
+    /// <summary>
+    /// Configures category entity type
+    /// </summary>
+    /// <param name="builder"><see cref="EntityTypeBuilder{TEntity}"/></param>
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         builder.ToTable(TableNames.Category);

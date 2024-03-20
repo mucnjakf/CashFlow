@@ -1,7 +1,7 @@
 ﻿namespace CashFlow.Core.Constants;
 
 /// <summary>
-/// Error messages
+/// Error message constants
 /// </summary>
 public static class Errors
 {

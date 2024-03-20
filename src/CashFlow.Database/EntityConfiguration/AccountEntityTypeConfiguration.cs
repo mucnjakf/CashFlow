@@ -5,8 +5,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CashFlow.Database.EntityConfiguration;
 
+/// <summary>
+/// Account entity type configuration
+/// </summary>
 internal sealed class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
 {
+    /// <summary>
+    /// Configures account entity type
+    /// </summary>
+    /// <param name="builder"><see cref="EntityTypeBuilder{TEntity}"/></param>
     public void Configure(EntityTypeBuilder<Account> builder)
     {
         builder.ToTable(TableNames.Account);

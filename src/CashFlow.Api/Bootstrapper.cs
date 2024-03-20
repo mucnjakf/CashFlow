@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 namespace CashFlow.Api;
 
 /// <summary>
-/// Bootstraps the application
+/// Bootstraps the API
 /// </summary>
 public static class Bootstrapper
 {
