@@ -59,7 +59,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
     /// <summary>
     /// Error response DTO
     /// </summary>
-    /// <param name="HttpStatusCode">HTTP status code that will be returned</param>
+    /// <param name="HttpStatusCode">HTTP status code that will be returned from API</param>
     /// <param name="Message">Error message</param>
     /// <param name="ValidationErrors">Validation error messages</param>
     public sealed record ErrorResponseDto(

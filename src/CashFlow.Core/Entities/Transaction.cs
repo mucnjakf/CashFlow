@@ -6,6 +6,9 @@ using CashFlow.Core.Exceptions;
 
 namespace CashFlow.Core.Entities;
 
+/// <summary>
+/// Transaction entity
+/// </summary>
 public sealed class Transaction : Entity
 {
     public DateTime DateTimeUtc { get; private set; }
@@ -40,6 +43,18 @@ public sealed class Transaction : Entity
         CategoryId = categoryId;
     }
 
+    /// <summary>
+    /// Creates transaction entity
+    /// </summary>
+    /// <param name="dateTimeUtc">Date and time of a transaction</param>
+    /// <param name="description">Transaction description</param>
+    /// <param name="amount">Transaction amount</param>
+    /// <param name="type">Transaction type</param>
+    /// <param name="accountId">Transaction account</param>
+    /// <param name="categoryId">Transaction category</param>
+    /// <returns><see cref="Transaction"/></returns>
+    /// <exception cref="TransactionException">Description is required</exception>
+    /// <exception cref="TransactionException">Amount must be greater than 0</exception>
     public static Transaction Create(
         DateTime dateTimeUtc,
         string description,
@@ -63,6 +78,13 @@ public sealed class Transaction : Entity
         return new Transaction(id, dateTimeUtc, description, amount, type, accountId, categoryId);
     }
 
+    /// <summary>
+    /// Updates transaction entity
+    /// </summary>
+    /// <param name="dateTimeUtc">Date and time of a transaction</param>
+    /// <param name="description">Transaction description</param>
+    /// <param name="categoryId">Transaction category</param>
+    /// <exception cref="TransactionException">Description is required</exception>
     public void Update(DateTime dateTimeUtc, string description, Guid categoryId)
     {
         if (string.IsNullOrWhiteSpace(description))
