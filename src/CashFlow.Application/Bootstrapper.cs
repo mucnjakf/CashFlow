@@ -15,6 +15,7 @@ public static class Bootstrapper
         {
             configuration.RegisterServicesFromAssembly(assembly);
             configuration.AddOpenBehavior(typeof(ValidationPipelineBehaviour<,>));
+            configuration.AddOpenBehavior(typeof(LoggingPipelineBehaviour<,>));
         });
 
         services.AddValidatorsFromAssembly(assembly);

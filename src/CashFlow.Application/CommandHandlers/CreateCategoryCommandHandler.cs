@@ -4,6 +4,7 @@ using CashFlow.Application.Dtos;
 using CashFlow.Application.Mappers;
 using CashFlow.Core.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CashFlow.Application.CommandHandlers;
 

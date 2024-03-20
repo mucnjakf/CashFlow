@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace CashFlow.Api.Handlers;
 
-internal sealed class GlobalExceptionHandler : IExceptionHandler
+internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
@@ -15,6 +15,9 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         CancellationToken cancellationToken)
     {
         ErrorResponseDto errorResponse = GetErrorResponse(exception);
+
+        logger.LogError("Http Status Code {httpStatusCode} - Error message: {Message}",
+            errorResponse.HttpStatusCode, errorResponse.Message);
 
         httpContext.Response.ContentType = MediaTypeNames.Application.Json;
         httpContext.Response.StatusCode = (int)errorResponse.HttpStatusCode;
