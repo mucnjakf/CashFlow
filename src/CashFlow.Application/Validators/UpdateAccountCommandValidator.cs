@@ -4,6 +4,9 @@ using FluentValidation;
 
 namespace CashFlow.Application.Validators;
 
+/// <summary>
+/// Update account command validator
+/// </summary>
 public sealed class UpdateAccountCommandValidator : AbstractValidator<UpdateAccountCommand>
 {
     public UpdateAccountCommandValidator()

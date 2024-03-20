@@ -2,6 +2,10 @@
 
 namespace CashFlow.Application.Pagination;
 
+/// <summary>
+/// Paged list for pagination
+/// </summary>
+/// <typeparam name="T">Entity type</typeparam>
 public sealed class PagedList<T>
 {
     public IEnumerable<T> Items { get; private set; }
@@ -27,6 +31,13 @@ public sealed class PagedList<T>
         TotalCount = totalCount;
     }
 
+    /// <summary>
+    /// Converts query to paged list
+    /// </summary>
+    /// <param name="source"><see cref="IQueryable{T}"/></param>
+    /// <param name="pageNumber">Pagination page number</param>
+    /// <param name="pageSize">Pagination page size</param>
+    /// <returns><see cref="PagedList{T}"/></returns>
     public static async Task<PagedList<T>> ToPagedListAsync(IQueryable<T> source, int pageNumber, int pageSize)
     {
         int totalCount = source.Count();

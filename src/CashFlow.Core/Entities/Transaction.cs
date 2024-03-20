@@ -49,7 +49,7 @@ public sealed class Transaction : Entity
     /// <param name="dateTimeUtc">Date and time of a transaction</param>
     /// <param name="description">Transaction description</param>
     /// <param name="amount">Transaction amount</param>
-    /// <param name="type">Transaction type</param>
+    /// <param name="type"><see cref="TransactionType"/></param>
     /// <param name="accountId">Transaction account</param>
     /// <param name="categoryId">Transaction category</param>
     /// <returns><see cref="Transaction"/></returns>

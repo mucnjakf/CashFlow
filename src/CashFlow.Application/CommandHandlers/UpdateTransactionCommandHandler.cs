@@ -9,8 +9,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.CommandHandlers;
 
+/// <summary>
+/// Update transaction command handler
+/// </summary>
+/// <param name="dbContext"><see cref="IApplicationDbContext"/></param>
 internal sealed class UpdateTransactionCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<UpdateTransactionCommand>
 {
+    /// <summary>
+    /// Handles updating transaction
+    /// </summary>
+    /// <param name="command"><see cref="UpdateTransactionCommand"/></param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <exception cref="TransactionException">Transaction not found</exception>
+    /// <exception cref="CategoryException">Category not found</exception>
     public async Task Handle(UpdateTransactionCommand command, CancellationToken cancellationToken)
     {
         Transaction? transaction = await dbContext.Transactions
