@@ -4,6 +4,9 @@ using FluentValidation;
 
 namespace CashFlow.Application.Validators;
 
+/// <summary>
+/// Create transaction command validator
+/// </summary>
 public sealed class CreateTransactionCommandValidator : AbstractValidator<CreateTransactionCommand>
 {
     public CreateTransactionCommandValidator()

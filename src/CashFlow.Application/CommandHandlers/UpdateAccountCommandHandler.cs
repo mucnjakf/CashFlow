@@ -9,8 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.CommandHandlers;
 
+/// <summary>
+/// Update account command handler
+/// </summary>
+/// <param name="dbContext"><see cref="IApplicationDbContext"/></param>
 internal sealed class UpdateAccountCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<UpdateAccountCommand>
 {
+    /// <summary>
+    /// Handles updating account
+    /// </summary>
+    /// <param name="command"><see cref="UpdateAccountCommand"/></param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <exception cref="AccountException">Account not found</exception>
     public async Task Handle(UpdateAccountCommand command, CancellationToken cancellationToken)
     {
         Account? account = await dbContext.Accounts.SingleOrDefaultAsync(cancellationToken);

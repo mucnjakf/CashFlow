@@ -11,8 +11,17 @@ using Microsoft.OpenApi.Models;
 
 namespace CashFlow.Api;
 
+/// <summary>
+/// Bootstraps the API
+/// </summary>
 public static class Bootstrapper
 {
+    /// <summary>
+    /// Configures dependency injection
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="configuration"><see cref="IConfiguration"/></param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddEndpointsApiExplorer();
@@ -30,6 +39,11 @@ public static class Bootstrapper
         return services;
     }
 
+    /// <summary>
+    /// Configures the middleware pipeline
+    /// </summary>
+    /// <param name="app"><see cref="WebApplication"/></param>
+    /// <returns><see cref="WebApplication"/></returns>
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
@@ -49,6 +63,11 @@ public static class Bootstrapper
         return app;
     }
 
+    /// <summary>
+    /// Configures Swagger
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     private static IServiceCollection AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
@@ -77,6 +96,11 @@ public static class Bootstrapper
         return services;
     }
 
+    /// <summary>
+    /// Configures global exception handler
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     private static IServiceCollection AddGlobalExceptionHandler(this IServiceCollection services)
     {
         services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -85,6 +109,10 @@ public static class Bootstrapper
         return services;
     }
 
+    /// <summary>
+    /// Applies Entity Framework Core database migrations
+    /// </summary>
+    /// <param name="app"><see cref="IApplicationBuilder"/></param>
     private static void ApplyDatabaseMigrations(this IApplicationBuilder app)
     {
         using IServiceScope scope = app.ApplicationServices.CreateScope();

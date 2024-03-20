@@ -10,8 +10,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.QueryHandlers;
 
+/// <summary>
+/// Get transactions query handler
+/// </summary>
+/// <param name="dbContext"><see cref="IApplicationDbContext"/></param>
 internal sealed class GetTransactionsQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<GetTransactionsQuery, PagedList<TransactionDto>>
 {
+    /// <summary>
+    /// Handles getting transactions
+    /// </summary>
+    /// <param name="query"><see cref="GetTransactionsQuery"/></param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="PagedList{T}"/></returns>
     public async Task<PagedList<TransactionDto>> Handle(GetTransactionsQuery query, CancellationToken cancellationToken)
     {
         IQueryable<Transaction> queryable = dbContext.Transactions
@@ -27,6 +37,12 @@ internal sealed class GetTransactionsQueryHandler(IApplicationDbContext dbContex
         return await PagedList<TransactionDto>.ToPagedListAsync(transactions, query.PageNumber, query.PageSize);
     }
 
+    /// <summary>
+    /// Filters transactions query
+    /// </summary>
+    /// <param name="type"><see cref="TransactionType"/></param>
+    /// <param name="queryable">Transactions query</param>
+    /// <returns><see cref="IQueryable{T}"/></returns>
     private static IQueryable<Transaction> Filter(TransactionType? type, IQueryable<Transaction> queryable)
     {
         return type is null
@@ -34,6 +50,12 @@ internal sealed class GetTransactionsQueryHandler(IApplicationDbContext dbContex
             : queryable.Where(x => x.Type == type);
     }
 
+    /// <summary>
+    /// Searches transactions query
+    /// </summary>
+    /// <param name="searchQuery">Search query for filtering</param>
+    /// <param name="queryable">Transactions query</param>
+    /// <returns><see cref="IQueryable{T}"/></returns>
     private static IQueryable<Transaction> Search(string? searchQuery, IQueryable<Transaction> queryable)
     {
         if (string.IsNullOrWhiteSpace(searchQuery))
@@ -49,6 +71,12 @@ internal sealed class GetTransactionsQueryHandler(IApplicationDbContext dbContex
             x.Category!.Name.ToUpper().Contains(capitalSearchQuery));
     }
 
+    /// <summary>
+    /// Sorts transactions query
+    /// </summary>
+    /// <param name="sortBy"><see cref="TransactionSortBy"/></param>
+    /// <param name="queryable">Transactions query</param>
+    /// <returns><see cref="IQueryable{T}"/></returns>
     private static IQueryable<Transaction> Sort(TransactionSortBy? sortBy, IQueryable<Transaction> queryable) => sortBy switch
     {
         TransactionSortBy.DateTimeUtcAsc => queryable.OrderBy(x => x.DateTimeUtc),

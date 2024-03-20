@@ -5,8 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CashFlow.Application;
 
+/// <summary>
+/// Bootstraps the application
+/// </summary>
 public static class Bootstrapper
 {
+    /// <summary>
+    /// Configures application
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         Assembly assembly = typeof(Bootstrapper).Assembly;

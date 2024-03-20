@@ -7,6 +7,9 @@ using CashFlow.Core.Exceptions;
 
 namespace CashFlow.Core.Entities;
 
+/// <summary>
+/// Account entity
+/// </summary>
 public sealed class Account : Entity
 {
     public double Balance { get; private set; }
@@ -18,6 +21,12 @@ public sealed class Account : Entity
         Balance = balance;
     }
 
+    /// <summary>
+    /// Creates account entity
+    /// </summary>
+    /// <param name="balance">Account balance</param>
+    /// <returns><see cref="Account"/></returns>
+    /// <exception cref="AccountException">Balance must be a positive number</exception>
     public static Account Create(double balance = 0)
     {
         if (balance < 0)
@@ -30,6 +39,11 @@ public sealed class Account : Entity
         return new Account(id, balance);
     }
 
+    /// <summary>
+    /// Updates account entity
+    /// </summary>
+    /// <param name="balance">Account balance</param>
+    /// <exception cref="AccountException">Balance must be a positive number</exception>
     public void Update(double balance = 0)
     {
         if (balance < 0)
@@ -41,6 +55,13 @@ public sealed class Account : Entity
         UpdatedUtc = DateTime.UtcNow;
     }
 
+    /// <summary>
+    /// Updates account balance
+    /// </summary>
+    /// <param name="type"><see cref="TransactionType"/></param>
+    /// <param name="amount">Amount to add or subtract from balance</param>
+    /// <exception cref="AccountException">Insufficient balance</exception>
+    /// <exception cref="TransactionException">Amount must be greater than 0</exception>
     public void UpdateBalance(TransactionType type, double amount)
     {
         if (Balance < amount)
@@ -68,6 +89,13 @@ public sealed class Account : Entity
         UpdatedUtc = DateTime.UtcNow;
     }
 
+    /// <summary>
+    /// Reverts account balance
+    /// </summary>
+    /// <param name="type"><see cref="TransactionType"/></param>
+    /// <param name="amount">Amount to add or subtract from balance</param>
+    /// <exception cref="AccountException">Insufficient balance</exception>
+    /// <exception cref="TransactionException">Amount must be greater than 0</exception>
     public void RevertBalance(TransactionType type, double amount)
     {
         if (Balance < amount)

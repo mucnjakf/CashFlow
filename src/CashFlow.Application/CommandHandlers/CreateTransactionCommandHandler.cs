@@ -11,8 +11,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.CommandHandlers;
 
+/// <summary>
+/// Create transaction command handler
+/// </summary>
+/// <param name="dbContext"><see cref="IApplicationDbContext"/></param>
 internal sealed class CreateTransactionCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<CreateTransactionCommand, TransactionDto>
 {
+    /// <summary>
+    /// Handles creating transaction
+    /// </summary>
+    /// <param name="command"><see cref="CreateTransactionCommand"/></param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="TransactionDto"/></returns>
+    /// <exception cref="AccountException">Account not found</exception>
+    /// <exception cref="CategoryException">Category not found</exception>
     public async Task<TransactionDto> Handle(CreateTransactionCommand command, CancellationToken cancellationToken)
     {
         Account? account = await dbContext.Accounts.SingleOrDefaultAsync(cancellationToken);

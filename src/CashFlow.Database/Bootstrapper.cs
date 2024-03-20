@@ -6,8 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CashFlow.Database;
 
+/// <summary>
+/// Bootstraps the database
+/// </summary>
 public static class Bootstrapper
 {
+    /// <summary>
+    /// Configures database
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <param name="configuration"><see cref="IConfiguration"/></param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

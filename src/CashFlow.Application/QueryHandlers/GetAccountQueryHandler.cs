@@ -8,8 +8,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Application.QueryHandlers;
 
+/// <summary>
+/// Get account query handler
+/// </summary>
+/// <param name="dbContext"><see cref="IApplicationDbContext"/></param>
 internal sealed class GetAccountQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<GetAccountQuery, AccountDto>
 {
+    /// <summary>
+    /// Handles getting account
+    /// </summary>
+    /// <param name="query"><see cref="GetAccountQuery"/></param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="AccountDto"/></returns>
     public async Task<AccountDto> Handle(GetAccountQuery query, CancellationToken cancellationToken)
     {
         Account? account = await dbContext.Accounts

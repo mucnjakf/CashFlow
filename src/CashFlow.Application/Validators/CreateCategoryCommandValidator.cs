@@ -4,6 +4,9 @@ using FluentValidation;
 
 namespace CashFlow.Application.Validators;
 
+/// <summary>
+/// Create category command validator
+/// </summary>
 public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {
     public CreateCategoryCommandValidator()

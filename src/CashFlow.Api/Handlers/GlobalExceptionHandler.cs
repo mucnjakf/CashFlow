@@ -7,8 +7,19 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace CashFlow.Api.Handlers;
 
+/// <summary>
+/// Global exception handler
+/// </summary>
+/// <param name="logger"><see cref="ILogger{TCategoryName}"/></param>
 internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
+    /// <summary>
+    /// Exception handler
+    /// </summary>
+    /// <param name="httpContext"><see cref="HttpContext"/></param>
+    /// <param name="exception"><see cref="Exception"/> thrown in the application</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+    /// <returns></returns>
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,
@@ -27,6 +38,11 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         return true;
     }
 
+    /// <summary>
+    /// Converts exception into error response DTO
+    /// </summary>
+    /// <param name="exception"></param>
+    /// <returns></returns>
     private static ErrorResponseDto GetErrorResponse(Exception exception) => exception switch
     {
         AccountException aex => new ErrorResponseDto(aex.HttpStatusCode, aex.Message),
@@ -40,6 +56,12 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         _ => new ErrorResponseDto(HttpStatusCode.InternalServerError, Errors.General.UnhandledError)
     };
 
+    /// <summary>
+    /// Error response DTO
+    /// </summary>
+    /// <param name="HttpStatusCode">HTTP status code that will be returned from API</param>
+    /// <param name="Message">Error message</param>
+    /// <param name="ValidationErrors">Validation error messages</param>
     public sealed record ErrorResponseDto(
         [property: JsonIgnore] HttpStatusCode HttpStatusCode,
         string Message,

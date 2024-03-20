@@ -3,4 +3,8 @@ using MediatR;
 
 namespace CashFlow.Application.Queries;
 
-public sealed record GetTransactionQuery(Guid TransactionId) : IRequest<TransactionDto>;
+/// <summary>
+/// Get transaction query
+/// </summary>
+/// <param name="Id">Transaction ID</param>
+public sealed record GetTransactionQuery(Guid Id) : IRequest<TransactionDto>;
