@@ -46,11 +46,8 @@ public static class Bootstrapper
     /// <returns><see cref="WebApplication"/></returns>
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.ApplyDatabaseMigrations();
 
