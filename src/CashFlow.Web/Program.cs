@@ -10,7 +10,7 @@ WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.Configuration["CashFlowApi"]!) });
+builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri("https://localhost:5001/api/v1/") }); // TODO: move to secrets
 
 builder.Services.AddMudServices();
 

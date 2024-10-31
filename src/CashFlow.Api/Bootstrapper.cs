@@ -24,6 +24,10 @@ public static class Bootstrapper
     /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        // TODO: configure cors
+        services.AddCors(options => options.AddPolicy("Default",
+            policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+
         services.AddEndpointsApiExplorer();
 
         services.AddSwagger();
@@ -46,6 +50,8 @@ public static class Bootstrapper
     /// <returns><see cref="WebApplication"/></returns>
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        app.UseCors("Default");
+
         app.UseSwagger();
         app.UseSwaggerUI();
 

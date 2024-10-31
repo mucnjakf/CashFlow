@@ -1,7 +1,59 @@
 ﻿@page "/categories"
 
-<h3>CategoriesPage</h3>
+<MudText Typo="Typo.h4" Class="mb-3">Categories</MudText>
+
+<MudPaper Class="pa-3 rounded-lg">
+    @if (_categories.Any())
+    {
+        <MudTable Items="@_categories" Hover="true" Elevation="0">
+
+            <HeaderContent>
+                <MudTh>ID</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Transactions</MudTh>
+                <MudTh>Income</MudTh>
+                <MudTh>Expense</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="ID">@context.Id</MudTd>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Transactions">@context.TransactionsCount</MudTd>
+                <MudTd DataLabel="Income">@context.IncomeCount</MudTd>
+                <MudTd DataLabel="Expense">@context.ExpenseCount</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudPagination Class="mt-3"> </MudPagination>
+            </PagerContent>
+        </MudTable>
+    }
+    else
+    {
+        <MudText Typo="Typo.h6" Align="Align.Center">
+            Categories not found
+        </MudText>
+    }
+</MudPaper>
+
 
 @code {
+
+    [Inject]
+    ICategoryService CategoryService { get; set; } = default!;
+
+    IEnumerable<CategoryDto> _categories = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            PagedList<CategoryDto> pagedList = await CategoryService.GetCategoriesAsync();
+
+            _categories = pagedList.Items;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
 
 }
