@@ -6,14 +6,20 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(_ => DrawerToggle())"/>
-        <MudText Typo="Typo.h5" Class="ml-3">CashFlow</MudText>
+        <MudIconButton Icon="@(_drawerOpen ? Icons.Material.Filled.MenuOpen : Icons.Material.Filled.Menu)" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(_ => DrawerToggle())"/>
         <MudSpacer/>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End"/>
     </MudAppBar>
 
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="1">
-        <MudNavMenu Bordered="true" Margin="Margin.Normal">
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
+        <MudDrawerHeader Class="align-center">
+            <MudImage Src="images/cashflow.svg" Alt="CashFlow logo" Width="30" Height="30" Class="me-3"/>
+            <MudText Typo="Typo.h6">CashFlow</MudText>
+        </MudDrawerHeader>
+
+        <MudNavMenu Bordered="true">
+            <MudDivider Class="mb-3"/>
+            <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">General</MudText>
             <MudNavLink Href="/dashboard" Icon="@Icons.Material.Rounded.Dashboard">Dashboard</MudNavLink>
             <MudNavLink Href="/account" Icon="@Icons.Material.Rounded.AccountBalanceWallet">Account</MudNavLink>
             <MudNavLink Href="/transactions" Icon="@Icons.Material.Rounded.PostAdd">Transactions</MudNavLink>
